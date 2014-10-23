@@ -27,6 +27,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.KeyEvent;
 
@@ -67,6 +68,7 @@ public class KeyHandler implements DeviceKeyHandler {
     private EventHandler mEventHandler;
     private SensorManager mSensorManager;
     private Sensor mProximitySensor;
+    private Vibrator mVibrator;
     WakeLock mProximityWakeLock;
 
     public KeyHandler(Context context) {
@@ -77,6 +79,10 @@ public class KeyHandler implements DeviceKeyHandler {
         mProximitySensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         mProximityWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                 "ProximityWakeLock");
+        mVibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        if (mVibrator == null || !mVibrator.hasVibrator()) {
+            mVibrator = null;
+        }
 
         try {
             mGestureContext = mContext.createPackageContext(
@@ -95,36 +101,43 @@ public class KeyHandler implements DeviceKeyHandler {
                 action = getGestureSharedPreferences()
                         .getString(ScreenOffGesture.PREF_GESTURE_CIRCLE,
                         ButtonsConstants.ACTION_CAMERA);
+                doHapticFeedback();
                 break;
             case GESTURE_SWIPE_DOWN_SCANCODE:
                 action = getGestureSharedPreferences()
                         .getString(ScreenOffGesture.PREF_GESTURE_DOUBLE_SWIPE,
                         ButtonsConstants.ACTION_MEDIA_PLAY_PAUSE);
+                doHapticFeedback();
                 break;
             case GESTURE_V_SCANCODE:
                 action = getGestureSharedPreferences()
                         .getString(ScreenOffGesture.PREF_GESTURE_ARROW_DOWN,
                         ButtonsConstants.ACTION_VIB_SILENT);
+                doHapticFeedback();
                 break;
             case GESTURE_V_UP_SCANCODE:
                 action = getGestureSharedPreferences()
                         .getString(ScreenOffGesture.PREF_GESTURE_ARROW_UP,
                         ButtonsConstants.ACTION_TORCH);
+                doHapticFeedback();
                 break;
             case GESTURE_LTR_SCANCODE:
                 action = getGestureSharedPreferences()
                         .getString(ScreenOffGesture.PREF_GESTURE_ARROW_LEFT,
                         ButtonsConstants.ACTION_MEDIA_PREVIOUS);
+                doHapticFeedback();
                 break;
             case GESTURE_GTR_SCANCODE:
                 action = getGestureSharedPreferences()
                         .getString(ScreenOffGesture.PREF_GESTURE_ARROW_RIGHT,
                         ButtonsConstants.ACTION_MEDIA_NEXT);
+                doHapticFeedback();
                 break;
             case KEY_DOUBLE_TAP:
                 action = getGestureSharedPreferences()
                         .getString(ScreenOffGesture.PREF_GESTURE_DOUBLE_TAP,
                         ButtonsConstants.ACTION_WAKE_DEVICE);
+                doHapticFeedback();
                 break;
             }
             if (action == null || action != null && action.equals(ButtonsConstants.ACTION_NULL)) {
@@ -193,4 +206,8 @@ public class KeyHandler implements DeviceKeyHandler {
         }, mProximitySensor, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
+    private void doHapticFeedback() {
+        if (mVibrator == null) return;
+        mVibrator.vibrate(50);
+    }
 }
