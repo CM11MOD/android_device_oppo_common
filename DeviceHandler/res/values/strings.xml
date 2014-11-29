@@ -24,7 +24,9 @@
     <string name="screen_off_gesture_title">Screen off gestures</string>
     <string name="group_applications">Applications</string>
     <string name="select_custom_app_title">Select custom application</string>
-
+    <string name="haptic_feedback">Haptic feedback</string>
+    <string name="haptic_feedback_summary">Vibrate when a gesture got detected</string>
+    <string name="kernel_does_not_support">Kernel does not support</string>
 
     <string name="enable_gestures_title">Enable gestures</string>
     <string name="enable_gestures_summary">Enable screen off gestures</string>

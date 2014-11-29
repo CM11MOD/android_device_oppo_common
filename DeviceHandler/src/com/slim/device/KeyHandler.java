@@ -27,6 +27,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.text.TextUtils;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -37,6 +38,7 @@ import com.android.internal.os.DeviceKeyHandler;
 import com.android.internal.util.ArrayUtils;
 import com.android.internal.util.slim.ButtonsConstants;
 import com.android.internal.util.slim.SlimActions;
+import com.slim.device.util.FileUtils;
 
 public class KeyHandler implements DeviceKeyHandler {
 
@@ -51,6 +53,8 @@ public class KeyHandler implements DeviceKeyHandler {
     private static final int GESTURE_LTR_SCANCODE = 253;
     private static final int GESTURE_GTR_SCANCODE = 254;
     private static final int KEY_DOUBLE_TAP = 255;
+
+    private static final String TOUCHSCREEN_HAPTIC_FEEDBACK_NODE = "/proc/touchpanel/haptic_feedback_enable";
 
     private static final int[] sSupportedGestures = new int[]{
         GESTURE_CIRCLE_SCANCODE,
@@ -208,6 +212,9 @@ public class KeyHandler implements DeviceKeyHandler {
 
     private void doHapticFeedback() {
         if (mVibrator == null) return;
-        mVibrator.vibrate(50);
+        final String val = FileUtils.readOneLine(TOUCHSCREEN_HAPTIC_FEEDBACK_NODE);
+        if (TextUtils.equals(val, "1")) {
+            mVibrator.vibrate(50);
+        }
     }
 }

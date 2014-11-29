@@ -23,6 +23,12 @@
             android:persistent="false"
             android:summary="@string/enable_gestures_summary" />
 
+        <CheckBoxPreference
+            android:key="touchscreen_haptic_feedback"
+            android:title="@string/haptic_feedback"
+            android:summary="@string/haptic_feedback_summary"
+            android:dependency="enable_gestures" />
+
         <PreferenceCategory
             android:key="gestures"
             android:title="@string/gestures_title" >

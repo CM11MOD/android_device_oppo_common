@@ -27,7 +27,9 @@ public class ScreenOffGestureSettings extends Activity {
 
         getFragmentManager().beginTransaction().replace(android.R.id.content,
                 new ScreenOffGesture()).commit();
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getActionBar() != null) {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
 }

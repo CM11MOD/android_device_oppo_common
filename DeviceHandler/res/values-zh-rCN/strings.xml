@@ -24,6 +24,9 @@
     <string name="screen_off_gesture_title">关屏手势</string>
     <string name="group_applications">程式</string>
     <string name="select_custom_app_title">选择开启程式</string>
+    <string name="haptic_feedback">振动反馈</string>
+    <string name="haptic_feedback_summary">侦测到手势时以振动反馈提示</string>
+    <string name="kernel_does_not_support">使用中的内核不支持此功能</string>
 
     <string name="enable_gestures_title">启用手势</string>
     <string name="enable_gestures_summary">使用关闭手势</string>

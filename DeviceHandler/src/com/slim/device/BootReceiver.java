@@ -43,6 +43,7 @@ public class BootReceiver extends BroadcastReceiver {
                         screenOffGestureSharedPreferences.getBoolean(
                         ScreenOffGesture.PREF_GESTURE_ENABLE, true));
             }
+            ScreenOffGesture.restore(context);
         }
     }
 

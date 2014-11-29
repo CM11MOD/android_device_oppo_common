@@ -37,6 +37,7 @@ public final class KernelControl {
     private static String GESTURE_FLASHLIGHT       = GESTURE_PATH + "flashlight_enable";
     private static String GESTURE_MUSIC            = GESTURE_PATH + "music_enable";
     private static String GESTURE_SILENT_VIB_SOUND = GESTURE_PATH + "silent_vib_sound_enable";
+    private static String TOUCHSCREEN_HAPTIC_FEEDBACK_NODE = GESTURE_PATH + "haptic_feedback_enable";
 
     private static String[] GESTURE_CONTROL_NODES = {
             GESTURE_DOUBLE_TAP,
@@ -61,11 +62,27 @@ public final class KernelControl {
     }
 
     /**
+     * Enable or disable haptic control.
+     */
+    public static void enableHaptics(boolean enable) {
+        if (new File(TOUCHSCREEN_HAPTIC_FEEDBACK_NODE).exists()) {
+            FileUtils.writeLine(TOUCHSCREEN_HAPTIC_FEEDBACK_NODE, enable ? "1" : "0");
+        }
+    }
+
+    /**
      * Check if kernel supports arrow up gesture - slim specific.
      * As well ugly but needed for now.
      */
     public static boolean isArrowUpSupported() {
         return new File(GESTURE_SILENT_VIB_SOUND).exists();
+    }
+
+    /**
+     * Check if kernel supports haptic feedback for screenoff gesture
+     */
+    public static boolean isHapticSupported() {
+        return new File(TOUCHSCREEN_HAPTIC_FEEDBACK_NODE).exists();
     }
 
     /**
